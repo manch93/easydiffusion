@@ -1086,9 +1086,89 @@ div.top-right {
 button#save-system-settings-btn {
     padding: 4pt 8pt;
 }
+div#model-tokens-section {
+    display: none;
+}
+div#model-tokens-section button {
+    margin-top: 1px;
+    margin-bottom: 2px;
+}
+div#modelmgr-sd button {
+    margin-top: 1px;
+    margin-bottom: 2px;
+    padding: 8px;
+}
+
 #ip-info a {
     color:var(--text-color)
 }
 #ip-info div {
     line-height: 200%;
+}
+
+/* SCROLLBARS */
+:root {
+    --scrollbar-width: 14px;
+    --scrollbar-radius: 10px;
+}
+
+.scrollbar-editor::-webkit-scrollbar {
+    width: 8px;
+}
+
+.scrollbar-editor::-webkit-scrollbar-track {
+    border-radius: 10px;
+}
+
+.scrollbar-editor::-webkit-scrollbar-thumb {
+    background: --background-color2;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar {
+    width: var(--scrollbar-width);
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px var(--input-border-color);
+    border-radius: var(--input-border-radius);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--background-color2);
+    border-radius: var(--scrollbar-radius);
+}
+/* Modelmgr */
+a.modelmgr-modellink {
+    color: var(--text-color);
+    text-decoration: none;
+    background-color: var(--accent-color);
+    padding: 6px;
+    border-radius: 5px;
+}
+button.modelmgr-downloadmodel {
+    padding: 3px 6px;
+    background: var(--accent-color);
+    margin:3px 0 3px 0;
+}
+
+span.modelmgr-tag {
+    border-radius: 3px;
+    background: var(--background-color1);
+    padding: 3px 6px 3px 6px;
+}
+
+div.modelmgr-version-pane {
+    background: var(--background-color3);
+    padding: 3px 10px;
+    margin: 12px 0px 0px 3em;
+}
+div#modelmgr {
+    text-align:left;
+}
+div#modelmgr-catalog > div {
+    text-align:left;
+}
+div#modelmgr-catalog > div > h2 {
+    margin-top:0px;
 }

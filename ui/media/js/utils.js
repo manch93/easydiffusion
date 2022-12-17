@@ -522,6 +522,14 @@ function prettifyInputs(root_element) {
     })
 }
 
+/* Insert text into a textarea at the cursor's position */
+/* newText: Text to be inserted                         */
+/* el:      the textarea object                         */
+function typeInTextarea(newText, el) {
+    const [start, end] = [el.selectionStart, el.selectionEnd]
+    el.setRangeText(newText, start, end, 'select')
+}
+
 class GenericEventSource {
     #events = {};
     #types = []

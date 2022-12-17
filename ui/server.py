@@ -44,14 +44,16 @@ APP_CONFIG_DEFAULT_MODELS = [
     'sd-v1-4', # Default fallback.
 ]
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, BackgroundTasks
 from fastapi.staticfiles import StaticFiles
 from starlette.responses import FileResponse, JSONResponse, StreamingResponse
+from time import time
 from pydantic import BaseModel
 import logging
 from typing import Any, Generator, Hashable, List, Optional, Union
 
-from sd_internal import Request, Response, task_manager
+from sd_internal import Request, Response, task_manager, ModelDownloadRequest
+from sd_internal.downloader import modelDownloadTask, getDownloadProgress
 
 app = FastAPI()
 
@@ -238,6 +240,19 @@ async def setAppConfig(req : SetAppConfigRequest):
     except Exception as e:
         print(traceback.format_exc())
         raise HTTPException(status_code=500, detail=str(e))
+
+@app.post('/model/download')
+async def modelDownload(req: ModelDownloadRequest, background_tasks: BackgroundTasks):
+    rich.print("[cyan]Download Model %s[/cyan]" % (req.url))
+    if req.path not in ['stable-diffusion', 'vae']:
+        return JSONResponse({'status': 'Error', 'message': 'Invalid type'}, headers=NOCACHE_HEADERS)
+    req.path = os.path.join(MODELS_DIR, req.path)
+    background_tasks.add_task(modelDownloadTask, req)
+    return JSONResponse({'taskId': id(req)}, headers=NOCACHE_HEADERS)
+
+@app.get('/model/download/{id:int}')
+async def modelDownloadStatus(id:int):
+    return JSONResponse(getDownloadProgress(id), headers=NOCACHE_HEADERS)    
 
 def is_malicious_model(file_path):
     try:

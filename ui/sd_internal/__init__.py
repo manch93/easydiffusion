@@ -1,4 +1,5 @@
 import json
+from pydantic import BaseModel
 
 class Request:
     request_id: str = None
@@ -117,3 +118,9 @@ class Response:
             res["output"].append(image.json())
 
         return res
+
+
+class ModelDownloadRequest(BaseModel):
+    url: str = None
+    path: str = 'stable-diffusion'
+
